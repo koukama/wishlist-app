@@ -1,0 +1,192 @@
+swagger: '2.0'
+info:
+  description: Wishlist API for Adidas products
+  version: 1.0.0
+  title: Adidas Wishlist API - code challenge
+  contact:
+    email: amzani.asmae@gmail.com
+
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+# tags are used for organizing operations
+tags:
+- name: Wishlist
+  description: Wishlist operations
+
+
+paths:
+  /wishlist:
+    post:
+      tags:
+      - Wishlist
+      summary: Create a new wishlist
+      operationId: app.create_wishlist
+      description: Create a new wishlist, currently only one wishlist per user should be created.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: wishlist
+        description: Wishlist to create
+        schema:
+          $ref: '#/definitions/Wishlist'
+      responses:
+        201:
+          description: Wishlist created
+        400:
+          description: invalid input, object invalid
+  /wishlist/{wishlist_id}:
+    get:
+      tags:
+      - Wishlist
+      summary: Get Wishlist
+      operationId: app.get_wishlist
+      description: Get all the products in the wishlist
+      produces:
+      - application/json
+      parameters:
+      - name: wishlist_id
+        in: path
+        required: true
+        type: string
+        description: 'Wishlist ID'
+      - in: query
+        name: page
+        description: number of records to skip for pagination
+        type: integer
+        format: int32
+        minimum: 0
+      - in: query
+        name: limit
+        description: maximum number of records to return
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 50
+      responses:
+        200:
+          description: List of products in the wishlist
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        400:
+          description: bad input parameter
+    delete:
+      tags:
+      - Wishlist
+      summary: Deletes a Wishlist
+      operationId: app.delete_wishlist
+      produces:
+      - application/json
+      parameters:
+      - name: wishlist_id
+        in: path
+        description: Wishlist id
+        required: true
+        type: string
+      responses:
+        204:
+          description: Successful delete of the wishlist
+        404:
+          description: Wishlist not found
+  /wishlist/{wishlist_id}/products:
+    post:
+      tags:
+      - Wishlist
+      summary: Add a new product in the Wishlist
+      operationId: app.add_product_wishlist
+      description: Add a product in the wishlist
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: wishlist_id
+        required: true
+        type: string
+        description: 'Wishlist ID'
+      - in: body
+        name: product
+        description: Product to add
+        schema:
+          $ref: '#/definitions/Product'
+      responses:
+        201:
+          description: Product added
+        400:
+          description: product already exists in this wishlist
+  /wishlist/{wishlist_id}/products/{product_id}:
+    delete:
+      tags:
+      - Wishlist
+      summary: Deletes a Product from a wishlist
+      operationId: app.delete_product_wishlist
+      produces:
+      - application/json
+      parameters:
+      - name: wishlist_id
+        in: path
+        description: Wishlist id
+        required: true
+        type: string
+      - name: product_id
+        in: path
+        description: Product id
+        required: true
+        type: string
+      responses:
+        400:
+          description: Invalid ID supplied
+        404:
+          description: Product not found
+    
+definitions:
+  Wishlist:
+    type: object
+    required:
+    - id
+    properties:
+      id:
+        type: string
+        format: uuid
+        example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        
+  Product:
+    type: object
+    required:
+    - id
+    - name
+    - price
+    - image
+    - rating
+    properties:
+      id:
+        type: string
+        example: 'A2332'
+      name:
+        type: string
+        example: 'Ultra boost'
+      price:
+        type: number
+        format: float
+        example: 123.56
+      image:
+        type: string
+        format: url
+        example: 'https://assets.adidas.com/images/w_280,h_280,f_auto,q_auto/37b5ad2666504da289f3a99a00c50ef6_9366/ee3707.jpg'
+      rating:
+        type: number
+        format: float
+        example: 4.5
+
+
+# Added by API Auto Mocking Plugin
+basePath: /
+schemes:
+ - http

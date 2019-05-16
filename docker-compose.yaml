@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+
+  api:
+    build: ./api
+    restart: always
+    ports:
+      - 8085:8085
+
+  api-test:
+    image: wishlist-app_api:latest
+    
+  api-lint:
+    image: wishlist-app_api:latest
+    command: pylint app
+  
+  api-utests:
+    image: wishlist-app_api:latest
+    command: pytest test_app.py
+
+  api-itests:
+    image: wishlist-app_api:latest
+    command: pytest test_integration.py
+    depends_on:
+      - api-test
+
+  frontend:
+    build: ./frontend
+    volumes:
+      - './frontend:/usr/src/app'
+      - '/usr/src/app/node_modules'
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-test
+    command: yarn test --watchAll=false --coverage
+    volumes:
+      - './frontend:/usr/src/app'
+  

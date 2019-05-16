@@ -1,0 +1,23 @@
+.Menu a {
+    color: white !important;
+}
+
+.Logo {
+    background-image: url('https://www.adidas.de/glass/react/12d9e17/assets/img/icon-adidas-logo-white.svg');\background-repeat: no-repeat;
+    background-position: 0;
+    background-size: contain;
+    transform-origin: 0 25px;
+    transition: width .45s,transform .45s cubic-bezier(0,.7,.6,1);
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+}
+
+.NavBar__Selected {
+    border-bottom: 1px solid white;
+}
+
+.navbar-brand {
+    margin-right: 66%;
+    margin-left: 8%;
+}

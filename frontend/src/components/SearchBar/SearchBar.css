@@ -1,0 +1,27 @@
+.SearchInput {
+  border-radius: 20px !important;
+  display: block;
+  width: 66% !important;
+  margin: 10px;
+  float: left;
+  border: 1.5px solid #343a40;
+  height: 30px;
+  padding: 7px;
+}
+
+.SearchButton {
+  background: #0b5de2;
+  color: white;
+  margin-top: 10px;
+  width: 13%;
+  height: 30px;
+  border-radius: 5px;
+  border: 1px solid #0b5de2;
+}
+
+.SearchForm {
+  padding-bottom: 25px;
+  border-bottom: 5px solid #343a4096;
+  width: 70%;
+  margin: auto;
+}
